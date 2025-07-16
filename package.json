@@ -1,0 +1,24 @@
+{
+  "name": "top-battleship",
+  "version": "1.0.0",
+  "description": "using TDD, implement Battleship game",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rythrojaofficial/TOP-battleship.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rythrojaofficial/TOP-battleship/issues"
+  },
+  "homepage": "https://github.com/rythrojaofficial/TOP-battleship#readme",
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-jest": "^30.0.4"
+  }
+}
