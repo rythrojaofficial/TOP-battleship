@@ -34,10 +34,12 @@ export class Ship{
     // Methods
     hit(){
         this.hitCounter += 1;
+        this.isSunk()
     }
     isSunk(){
         if(this.hitCounter === this.length){
             this.sunk = true;
+            return 'Ship has been sunk . . .'
         }
     }
 }

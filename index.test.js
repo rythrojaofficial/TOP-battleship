@@ -78,6 +78,12 @@ describe('ship under attack', ()=>{
         expect(testGameBoard.receiveAttack([2,0])).toBe('BOOM!  something was hit on 2,0')
         expect(testGameBoard.receiveAttack([0,3])).toBe('. . . nothing happened at 0,3')
         expect(testGameBoard.findShip('theVoid').getHitCounter()).toBe(2)
+        expect(testGameBoard.receiveAttack([3,0])).toBe('BOOM!  something was hit on 3,0')
+        expect(testGameBoard.receiveAttack([0,0])).toBe('BOOM!  something was hit on 0,0')
+        expect(testGameBoard.findShip('theVoid').getHitCounter()).toBe(4)
+        expect(testGameBoard.findShip('theVoid').sunk).toBe(true)
+
+
     })
 
 })
