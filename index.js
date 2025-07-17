@@ -1,6 +1,7 @@
 // Begin your app by creating the Ship class/factory (your choice).
 export class Ship{
-    constructor(length){
+    constructor(length, name){
+        this.name = name;
         this.length = length;
         this.hitCounter = 0;
         this.sunk = false;
@@ -8,6 +9,9 @@ export class Ship{
         this.coordinates = []
     }
     // getters
+    getName(){
+        return this.name;
+    }
     getLength(){
         return this.length;
     }
@@ -63,16 +67,31 @@ export class Gameboard{
         this.board = Array.from({ length: this.dimensions }, () => Array(this.dimensions).fill(null)) // initialize game board with 10x10, null
         this.playerShips = [];
     }
-    addShip(length, orientation, startCoordinates){
-        if(this.checkValidCoordinates() === true){
-            this.calculateShipCoordinates().forEach(coordinates =>{
-
+    addShip(length, name, orientation, startCoordinates){
+        let newShip = new Ship(length, name);
+        newShip.setOrientation(orientation);
+        if(this.checkValidCoordinates(length, startCoordinates, orientation) === false){
+            failMessage = 'error: out-of bounds startCoordinates, ship not placed'
+            return failMessage;
+        }else{
+            let coordinatesArray = this.calculateShipCoordinates(length, startCoordinates, orientation);  
+            if(this.isClear(coordinatesArray, this.board) === false){
+                failMessage = 'Error: unable to add ship at those coordinates.  Is something already there?'
+                return failMessage
+            }else{
+                coordinatesArray.forEach(coordinates =>{
+                    let x = coordinates[0],
+                    y = coordinates[1]
+                    this.board[x][y] = newShip.getName()
+                    
             })
+            const successMessage = `${newShip.getName()} has been placed. . .`
+            return successMessage
+        }
+            
 
         };
-        let newShip = new Ship(length);
-        newShip.setOrientation(orientation);
-        this.playerShips.push(newShip)
+        // this.playerShips.push(newShip)
 
     }
     isClear(coordinatesArray, boardArray){
