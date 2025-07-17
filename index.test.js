@@ -68,5 +68,17 @@ describe('adding ships', ()=>{
         expect(testGameBoard.playerShips[0].getLength()).toBe(4)
     
     })
+    
+})
+describe('ship under attack', ()=>{
+    let testGameBoard = new Gameboard;
+    testGameBoard.addShip(4, 'theVoid', 'horizontal', [0,0])
+    test('findShip under attack', ()=>{
+        expect(testGameBoard.receiveAttack([1,0])).toBe('BOOM!  something was hit on 1,0')
+        expect(testGameBoard.receiveAttack([2,0])).toBe('BOOM!  something was hit on 2,0')
+        expect(testGameBoard.receiveAttack([0,3])).toBe('. . . nothing happened at 0,3')
+        expect(testGameBoard.findShip('theVoid').getHitCounter()).toBe(2)
+    })
+
 })
 

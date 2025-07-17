@@ -30,20 +30,10 @@ export class Ship{
     }
     setOrientation(newOrientation){
         this.orientation = newOrientation
-        // switch (this.orientation){
-        //     case 'vertical':
-        //         this.orientation = 'horizontal';
-        //         break;
-        //     case 'horizontal':
-        //         this.orientation = 'vertical';
-        //         break;
-        //     default:
-        //         throw new Error('set orientation error: neither horizontal nor vertical')
-        // }
     }
     // Methods
     hit(){
-        this.hitCounter++;
+        this.hitCounter += 1;
     }
     isSunk(){
         if(this.hitCounter === this.length){
@@ -72,6 +62,9 @@ export class Gameboard{
         this.boardAttacks = [];
     }
     // getters 
+    findShip(shipName){
+        return this.playerShips.find(ship => ship.name === shipName)
+    }
     getShips(){
         return this.playerShips;
     }
@@ -79,7 +72,7 @@ export class Gameboard{
         return this.boardAttacks;
     }
     // setters
-    addBoardAttack(coordinates){
+    setBoardAttack(coordinates){
         this.boardAttacks.push(coordinates);
     }
     setPlayerShips(shipObject){
@@ -87,11 +80,30 @@ export class Gameboard{
     }
     // external methods
     receiveAttack(coordinates){
+        let x = coordinates[0],
+        y = coordinates[1];
+
         if(this.checkValidCoordinates(1, coordinates, 'horizontal') === false){
             let failMessage = 'error: out-of-bounds attackCoordinates, attack not launched';
             return failMessage
         }else{
+            this.setBoardAttack(coordinates);
+            if(this.isClear([coordinates], this.board) === true){
+                let message = `. . . nothing happened at ${coordinates}`
+                return message
+            }else{
+                let theShipObject = this.findShip(this.board[x][y])
+                if (theShipObject === undefined){
+                    let failMessage = `error: findShip is cannot find ${this.board[x][y]} in the fleet`
+                    return failMessage;
+                }else{
+                    theShipObject.hit()
+                    let message = `BOOM!  something was hit on ${coordinates}`
+                    return message                
+                }
 
+                
+            }
         }
     }
     addShip(length, name, orientation, startCoordinates){
@@ -176,6 +188,7 @@ export class Gameboard{
 
         return isValid
     }
+
     
 }
 
