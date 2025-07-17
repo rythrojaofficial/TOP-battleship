@@ -69,6 +69,30 @@ export class Gameboard{
         this.dimensions = 10;
         this.board = Array.from({ length: this.dimensions }, () => Array(this.dimensions).fill(null)) // initialize game board with 10x10, null
         this.playerShips = [];
+        this.boardAttacks = [];
+    }
+    // getters 
+    getShips(){
+        return this.playerShips;
+    }
+    getBoardAttcks(){
+        return this.boardAttacks;
+    }
+    // setters
+    addBoardAttack(coordinates){
+        this.boardAttacks.push(coordinates);
+    }
+    setPlayerShips(shipObject){
+        this.playerShips.push(shipObject);
+    }
+    // external methods
+    receiveAttack(coordinates){
+        if(this.checkValidCoordinates(1, coordinates, 'horizontal') === false){
+            let failMessage = 'error: out-of-bounds attackCoordinates, attack not launched';
+            return failMessage
+        }else{
+
+        }
     }
     addShip(length, name, orientation, startCoordinates){
         let newShip = new Ship(length, name, orientation);
@@ -88,17 +112,16 @@ export class Gameboard{
                     y = coordinates[1]
                     this.board[x][y] = newShip.getName()
                 });
-                
-                this.playerShips.push(newShip);
+                this.setPlayerShips(newShip)
                 const successMessage = `${newShip.getName()} has been placed. . .`
                 return successMessage
             }
             
 
         };
-        // this.playerShips.push(newShip)
-
     }
+
+    // internal methods 
     isClear(coordinatesArray, boardArray){
         let isClear = true;
         coordinatesArray.forEach(coordinates =>{
