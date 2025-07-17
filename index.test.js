@@ -56,13 +56,17 @@ describe('calculate ship coordinates logic', ()=>{
 describe('adding ships', ()=>{
     let testGameBoard = new Gameboard;
     testGameBoard.addShip(4, 'theVoid', 'horizontal', [0,0])
-    test('has the ship really been added?',()=>{
+    test('has the ship really been added? check board coordinates',()=>{
         expect(testGameBoard.board[0][0]).toEqual('theVoid')
         expect(testGameBoard.board[1][0]).toEqual('theVoid')
         expect(testGameBoard.board[2][0]).toEqual('theVoid')
         expect(testGameBoard.board[3][0]).toEqual('theVoid')
         expect(testGameBoard.board[4][0]).toEqual(null)
-
+    })
+    test('has the ship been added to the board"s array?',()=>{
+        expect(testGameBoard.playerShips.length).toBe(1);
+        expect(testGameBoard.playerShips[0].getLength()).toBe(4)
+    
     })
 })
 

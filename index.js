@@ -6,7 +6,7 @@ export class Ship{
         this.hitCounter = 0;
         this.sunk = false;
         this.orientation = null;
-        this.coordinates = []
+        this.coordinates = [];
     }
     // getters
     getName(){
@@ -25,6 +25,9 @@ export class Ship{
         return this.orientation;
     }
     // setters
+    setCoordinates(coordinatesArray){
+        this.coordinates = coordinatesArray;
+    }
     setOrientation(newOrientation){
         this.orientation = newOrientation
         // switch (this.orientation){
@@ -68,13 +71,14 @@ export class Gameboard{
         this.playerShips = [];
     }
     addShip(length, name, orientation, startCoordinates){
-        let newShip = new Ship(length, name);
+        let newShip = new Ship(length, name, orientation);
         newShip.setOrientation(orientation);
         if(this.checkValidCoordinates(length, startCoordinates, orientation) === false){
             failMessage = 'error: out-of bounds startCoordinates, ship not placed'
             return failMessage;
         }else{
             let coordinatesArray = this.calculateShipCoordinates(length, startCoordinates, orientation);  
+            newShip.setCoordinates(coordinatesArray);
             if(this.isClear(coordinatesArray, this.board) === false){
                 failMessage = 'Error: unable to add ship at those coordinates.  Is something already there?'
                 return failMessage
@@ -83,11 +87,12 @@ export class Gameboard{
                     let x = coordinates[0],
                     y = coordinates[1]
                     this.board[x][y] = newShip.getName()
-                    
-            })
-            const successMessage = `${newShip.getName()} has been placed. . .`
-            return successMessage
-        }
+                });
+                
+                this.playerShips.push(newShip);
+                const successMessage = `${newShip.getName()} has been placed. . .`
+                return successMessage
+            }
             
 
         };
