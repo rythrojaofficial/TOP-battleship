@@ -88,10 +88,16 @@ export class Gameboard{
         if(this.checkValidCoordinates(1, coordinates, 'horizontal') === false){
             let failMessage = 'error: out-of-bounds attackCoordinates, attack not launched';
             return failMessage
-        }else{
+        }
+        if(this.areCoordinatesPresent(coordinates, this.boardAttacks) === true){
+            let failMessage = 'error: already attacked. attack no launched'
+            return failMessage
+        }
+        else{
             this.setBoardAttack(coordinates);
             if(this.isClear([coordinates], this.board) === true){
                 let message = `. . . nothing happened at ${coordinates}`
+
                 return message
             }else{
                 let theShipObject = this.findShip(this.board[x][y])
@@ -136,6 +142,29 @@ export class Gameboard{
     }
 
     // internal methods 
+    areCoordinatesPresent(coordinatesToCheck, arrayOfCoordinates){
+        let isPresent = arrayOfCoordinates.some(arr => 
+            arr.every((val, index) => val === coordinatesToCheck[index])
+        )
+        return isPresent
+    }
+    isGameOver(){
+        if(this.playerShips.length = 0){
+            throw new Error('error: no ships found')
+        }else{
+            let isGameOver = false
+            let sunkCounter = 0;
+            this.playerShips.forEach(ship =>{
+                if(ship.getIsSunk() === true){
+                    sunkCounter++;
+                }
+            })
+            if(this.playerShips.length <= sunkCounter){
+                isGameOver = true;
+            }
+            return isGameOver
+        }
+    }
     isClear(coordinatesArray, boardArray){
         let isClear = true;
         coordinatesArray.forEach(coordinates =>{

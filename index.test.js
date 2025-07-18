@@ -80,11 +80,23 @@ describe('ship under attack', ()=>{
         expect(testGameBoard.findShip('theVoid').getHitCounter()).toBe(2)
         expect(testGameBoard.receiveAttack([3,0])).toBe('BOOM!  something was hit on 3,0')
         expect(testGameBoard.receiveAttack([0,0])).toBe('BOOM!  something was hit on 0,0')
+        expect(testGameBoard.receiveAttack([0,0])).toBe("error: already attacked. attack no launched")
         expect(testGameBoard.findShip('theVoid').getHitCounter()).toBe(4)
         expect(testGameBoard.findShip('theVoid').sunk).toBe(true)
-
+        expect(testGameBoard.isGameOver()).toBe(true)
 
     })
 
+})
+
+describe('check if coordinates have already been hit', ()=>{
+    let testGameBoard = new Gameboard;
+    testGameBoard.addShip(4, 'theVoid', 'horizontal', [0,0])
+    testGameBoard.receiveAttack([1,0])
+    test('test coordinates after hit', ()=>{
+        expect(testGameBoard.getBoardAttcks()).toEqual([[1,0]])
+        expect(testGameBoard.areCoordinatesPresent([1,0],testGameBoard.getBoardAttcks())).toBe(true)
+        expect(testGameBoard.areCoordinatesPresent([0,2],testGameBoard.getBoardAttcks())).toBe(false)
+    })
 })
 
